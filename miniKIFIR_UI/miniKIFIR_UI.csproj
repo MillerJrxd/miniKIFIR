@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net8.0-windows</TargetFramework>
+    <TargetFramework>net8.0-windows7.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
@@ -10,14 +10,16 @@
 
   <ItemGroup>
     <None Remove="Fonts\Dosis.ttf" />
+    <None Remove="Images\back-image.jpg" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Images\" />
+    <PackageReference Include="Extended.Wpf.Toolkit" Version="4.5.1" />
   </ItemGroup>
 
   <ItemGroup>
     <Resource Include="Fonts\Dosis.ttf" />
+    <Resource Include="Images\back-image.jpg" />
   </ItemGroup>
 
 </Project>
