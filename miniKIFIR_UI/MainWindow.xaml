@@ -7,7 +7,7 @@
         mc:Ignorable="d" WindowStyle="None"
         Title="Felvételizők Listája" AllowsTransparency="True" Height="450" Width="923" Background="Transparent">
     <Border BorderThickness="3"
-        CornerRadius="15">
+CornerRadius="15">
         <Border.BorderBrush>
             <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
                 <GradientStop Color="#462AD8" Offset="0"/>
@@ -30,43 +30,205 @@
                 <RowDefinition></RowDefinition>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="3*"/>
-                <ColumnDefinition/>
+                <ColumnDefinition Width="432*"/>
+                <ColumnDefinition Width="84*"/>
+                <ColumnDefinition Width="16*"/>
+                <ColumnDefinition Width="71*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="313*"/>
             </Grid.ColumnDefinitions>
-            <DataGrid x:Name="dgAdatok" AutoGenerateColumns="True" Background="Transparent" Grid.RowSpan="4" BorderThickness="0" >
+            <DataGrid x:Name="dgAdatok"  AutoGenerateColumns="True" Background="Transparent" Grid.RowSpan="4" BorderThickness="0" Grid.ColumnSpan="6" Margin="0,37,229,-37" >
 
             </DataGrid>
 
-            <Button  Background="#FE6584" Height="95" Grid.Column="1" Content="Új diák" FontWeight="DemiBold" FontSize="24" Click="Felvesz_Click_Button">
+            <Button Height="95" Grid.Column="5" Content="Új diák" FontWeight="DemiBold" FontSize="24" Click="Felvesz_Click_Button" Margin="0,8,0,8">
                 <Button.Resources>
                     <Style TargetType="Border">
                         <Setter Property="CornerRadius" Value="40"></Setter>
                     </Style>
                 </Button.Resources>
-            </Button>
-            <Button  Background="#FE6584" Height="95" Grid.Row="1" Grid.Column="1" Content="Törlés" FontSize="24" FontWeight="DemiBold" Click="Torles_Click_Button">
-                <Button.Resources>
-                    <Style TargetType="Border">
-                        <Setter Property="CornerRadius" Value="40"></Setter>
+                <Button.Background>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                        <GradientStop Color="#FF5E2CC6"/>
+                        <GradientStop Color="#FFD634AA" Offset="1"/>
+                        <GradientStop Color="#FF9C2EB3" Offset="0.5"/>
+                    </LinearGradientBrush>
+                </Button.Background>
+                <Button.Style>
+                    <Style TargetType="Button">
+                        <Setter Property="Background" Value="Black"/>
+                        <Setter Property="Cursor" Value="Hand"/>
+                        <Setter Property="TextElement.FontFamily" Value="Fonts/#Dosis"/>
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#28AEED"/>
+                            </Trigger>
+                        </Style.Triggers>
                     </Style>
-                </Button.Resources>
-            </Button>
-            <Button x:Name="btnImport" Background="#FE6584" Height="95" Grid.Row="2" Grid.Column="1" Content="Import" FontSize="24" FontWeight="DemiBold" Click="Import_Click_Button">
-                <Button.Resources>
-                    <Style TargetType="Border">
-                        <Setter Property="CornerRadius" Value="40"></Setter>
-                    </Style>
-                </Button.Resources>
-            </Button>
-            <Button  Background="#FE6584" Height="95" Grid.Row="3" Grid.Column="1" Content="Export" FontSize="24" FontWeight="DemiBold" Click="Button_Click">
-                <Button.Resources>
-                    <Style TargetType="Border">
-                        <Setter Property="CornerRadius" Value="40"></Setter>
-                    </Style>
-                </Button.Resources>
-            </Button>
+                </Button.Style>
 
-            <Grid Grid.ColumnSpan="2" Height="2" VerticalAlignment="Top">
+                <Button.Template>
+                    <ControlTemplate TargetType="Button">
+                        <Border Width="120" Height="45"
+    CornerRadius="20"
+    Background="{TemplateBinding Background}">
+
+                            <ContentPresenter VerticalAlignment="Center"
+                  HorizontalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+            <Button Height="95" Grid.Row="1" FontFamily="Fonts/#Dosis" Grid.Column="5" Content="Törlés" FontSize="24" FontWeight="DemiBold" Click="Torles_Click_Button" Margin="0,8,0,8">
+                <Button.Resources>
+                    <Style TargetType="Border">
+                        <Setter Property="CornerRadius" Value="40"></Setter>
+                    </Style>
+                </Button.Resources>
+                <Button.Background>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                        <GradientStop Color="#FF5E2CC6"/>
+                        <GradientStop Color="#FFD634AA" Offset="1"/>
+                        <GradientStop Color="#FF9C2EB3" Offset="0.5"/>
+                    </LinearGradientBrush>
+                </Button.Background>
+                <Button.Style>
+                    <Style TargetType="Button">
+                        <Setter Property="Background" Value="Black"/>
+                        <Setter Property="Cursor" Value="Hand"/>
+                        <Setter Property="TextElement.FontFamily" Value="Fonts/#Dosis"/>
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#28AEED"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+
+                <Button.Template>
+                    <ControlTemplate TargetType="Button">
+                        <Border Width="120" Height="45"
+    CornerRadius="20"
+    Background="{TemplateBinding Background}">
+
+                            <ContentPresenter VerticalAlignment="Center"
+                  HorizontalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+            <Button x:Name="btnImport" Height="95" Grid.Row="2" Grid.Column="5" Content="Import" FontSize="24" FontWeight="DemiBold" Click="Import_Click_Button" Margin="0,8,0,8">
+                <Button.Resources>
+                    <Style TargetType="Border">
+                        <Setter Property="CornerRadius" Value="40"></Setter>
+                    </Style>
+                </Button.Resources>
+                <Button.Background>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                        <GradientStop Color="#FF5E2CC6"/>
+                        <GradientStop Color="#FFD634AA" Offset="1"/>
+                        <GradientStop Color="#FF9C2EB3" Offset="0.5"/>
+                    </LinearGradientBrush>
+                </Button.Background>
+                <Button.Style>
+                    <Style TargetType="Button">
+                        <Setter Property="Background" Value="Black"/>
+                        <Setter Property="Cursor" Value="Hand"/>
+                        <Setter Property="TextElement.FontFamily" Value="Fonts/#Dosis"/>
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#28AEED"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+
+                <Button.Template>
+                    <ControlTemplate TargetType="Button">
+                        <Border Width="120" Height="45"
+    CornerRadius="20"
+    Background="{TemplateBinding Background}">
+
+                            <ContentPresenter VerticalAlignment="Center"
+                  HorizontalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+            <Button  Height="95" Grid.Row="3" Grid.Column="5" Content="Export" Click="Export_Click_Button" FontSize="24" FontWeight="DemiBold" Margin="0,8,0,8">
+                <Button.Resources>
+                    <Style TargetType="Border">
+                        <Setter Property="CornerRadius" Value="40"></Setter>
+                    </Style>
+                </Button.Resources>
+                <Button.Background>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                        <GradientStop Color="#FF5E2CC6"/>
+                        <GradientStop Color="#FFD634AA" Offset="1"/>
+                        <GradientStop Color="#FF9C2EB3" Offset="0.5"/>
+                    </LinearGradientBrush>
+                </Button.Background>
+                <Button.Style>
+                    <Style TargetType="Button">
+                        <Setter Property="Background" Value="Black"/>
+                        <Setter Property="Cursor" Value="Hand"/>
+                        <Setter Property="TextElement.FontFamily" Value="Fonts/#Dosis"/>
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#28AEED"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+
+                <Button.Template>
+                    <ControlTemplate TargetType="Button">
+                        <Border Width="120" Height="45"
+    CornerRadius="20"
+    Background="{TemplateBinding Background}">
+
+                            <ContentPresenter VerticalAlignment="Center"
+                  HorizontalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+            <Border Grid.Row="0" MouseDown="DragWithHeader" CornerRadius="20" Padding="2" Height="40" Grid.ColumnSpan="6" Margin="0,-12,-4,83">
+                <Border.Background>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                        <GradientStop Color="#FF5E2CC6"/>
+                        <GradientStop Color="#FFD634AA" Offset="1"/>
+                        <GradientStop Color="#FF9C2EB3" Offset="0.5"/>
+                    </LinearGradientBrush>
+                </Border.Background>
+            </Border>
+            <Button x:Name="btnAppExit" Content="X" FontSize="14" Grid.Column="5" 
+BorderThickness="0" Click="btnAppExit_Click" VerticalAlignment="Top"
+HorizontalAlignment="Right" >
+                <Button.Style>
+                    <Style TargetType="Button">
+                        <Setter Property="Foreground" Value="White"/>
+                        <Setter Property="Background" Value="#FF6B53E6"/>
+                        <Setter Property="Cursor" Value="Hand"/>
+                        <Setter Property="TextElement.FontFamily" Value="Fonts/#Dosis"/>
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#462AD8"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+                <Button.Template>
+                    <ControlTemplate TargetType="Button">
+                        <Border Width="20" Height="20" CornerRadius="10"
+        Background="{TemplateBinding Background}">
+                            <ContentPresenter VerticalAlignment="Center"
+      HorizontalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+            <Grid Grid.ColumnSpan="6" Height="2" VerticalAlignment="Top">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="16*"/>
                     <ColumnDefinition/>

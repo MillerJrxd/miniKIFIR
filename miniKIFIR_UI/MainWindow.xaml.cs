@@ -39,9 +39,18 @@ namespace miniKIFIR_UI
                 }
                 dgAdatok.ItemsSource = felvetelizok;
             }
-           
         }
-
+        private void btnAppExit_Click(object s, RoutedEventArgs e)
+        {
+            Application.Current.Shutdown();
+        }
+        private void DragWithHeader(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            if (e.ChangedButton == MouseButton.Left)
+            {
+                DragMove();
+            }
+        }
         private void Torles_Click_Button(object sender, RoutedEventArgs e)
         {
             if (dgAdatok.SelectedIndex < 0)
@@ -57,13 +66,22 @@ namespace miniKIFIR_UI
 
             MainWindow ujablak = new MainWindow(ujdiak);
             ujablak.ShowDialog();
-
-            
+            felvetelizok.Add(ujdiak);
         }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void Export_Click_Button(object sender, RoutedEventArgs e)
         {
-            throw new NotImplementedException();
+            SaveFileDialog mentes = new SaveFileDialog();
+            mentes.Title = "File neve: ";
+            mentes.DefaultExt = ".csv";
+            if (mentes.ShowDialog() == true)
+            {
+                StreamWriter sw = new StreamWriter(mentes.FileName);
+                foreach (var item in felvetelizok)
+                {
+                    sw.WriteLine("juhu");
+                }
+            }
+            MessageBox.Show("Elmentve.");
         }
     }
 }

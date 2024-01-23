@@ -80,6 +80,10 @@ namespace miniKIFIR_UI
                     convertedDate = result;
                 }
             }
+            else if (dateString == "__/__/____")
+            {
+                return;
+            }
             else
             {
                 MessageBox.Show("Nem létező dátum!", "Hiba", MessageBoxButton.OK, MessageBoxImage.Error);
