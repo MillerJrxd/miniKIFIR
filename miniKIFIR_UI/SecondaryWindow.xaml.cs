@@ -21,19 +21,30 @@ namespace miniKIFIR_UI
     public partial class MainWindow : Window
     {
         Adatok felvetelizoAdatai;
-        internal DateTime convertedDate;
+        bool uzemMod;
+        private DateTime convertedDate;
+
         public MainWindow()
         {
             InitializeComponent();
         }
-        public MainWindow(Adatok ujdiak) : this()
+
+        public MainWindow(Adatok ujdiak, bool mod) : this()
         {
             this.felvetelizoAdatai = ujdiak;
+            this.uzemMod = mod;
+            if (this.uzemMod)
+            {
+                txtOmAzon.IsEnabled = true;
+            }
+            else { txtOmAzon.IsEnabled = false;}
         }
 
         private void btnAppExit_Click(object s, RoutedEventArgs e)
         {
-            Application.Current.Shutdown();
+           Window UI_Window = Window.GetWindow(this);
+           UI_Window.Resources.Clear();
+           UI_Window.Close();
         }
         private void btnAppMinimize_Click(object s, RoutedEventArgs e)
         {
@@ -80,9 +91,22 @@ namespace miniKIFIR_UI
                     convertedDate = result;
                 }
             }
-            else if (dateString == "__/__/____")
+            else if (DateTime.TryParseExact(dateString, "MM. dd. yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime result2))
             {
-                return;
+                if (result2 > DateTime.Now)
+                {
+                    MessageBox.Show("Nem lehet jövőbeli dátum.", "Hiba", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    maskedTextBox1.Clear();
+                }
+                else if (DateTime.Now.Year - result2.Year > 19)
+                {
+                    MessageBox.Show("A megadott tanuló nem lehet 18 évesnél idősebb!", "Hiba", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    maskedTextBox1.Clear();
+                }
+                else
+                {
+                    convertedDate = result2;
+                }
             }
             else
             {
@@ -93,33 +117,36 @@ namespace miniKIFIR_UI
 
         private void btnRogzit_Click(object sender, RoutedEventArgs e)
         {
-            string tempString = txtOmAzon.Text;
-
-            this.felvetelizoAdatai.Matematika = int.Parse(txtMatekE.Text);
-            this.felvetelizoAdatai.Magyar = int.Parse(txtMagyarE.Text);
-            this.felvetelizoAdatai.Neve = txtNev.Text;
-            this.felvetelizoAdatai.Email = txtEmail.Text;
-            this.felvetelizoAdatai.ErtesitesiCime = txtErtesitesi.Text;
-            this.felvetelizoAdatai.SzuletesiDatum = convertedDate;
-
-            if (felvetelizoAdatai.Magyar > 50 || felvetelizoAdatai.Magyar < 0)
+            if (txtMatekE.Text == "" || txtMagyarE.Text == "" || txtNev.Text == "" || txtOmAzon.Text == "" || txtErtesitesi.Text == "" || txtEmail.Text == "")
+            {
+                MessageBox.Show("Nem lehet üres mező!", "Hiba", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            else if (int.Parse(txtMagyarE.Text) > 50 || 0 > int.Parse(txtMagyarE.Text))
             {
                 MessageBox.Show("Nem lehet ennyi pontja magyarból a felvételizőnek!", "Hiba", MessageBoxButton.OK, MessageBoxImage.Error);
                 txtMagyarE.Clear();
+                txtMagyarE.Focus();
             }
-            if (felvetelizoAdatai.Matematika > 50 || felvetelizoAdatai.Matematika < 0)
+            else if (int.Parse(txtMatekE.Text) > 50 || 0 > int.Parse(txtMatekE.Text))
             {
                 MessageBox.Show("Nem lehet ennyi pontja matematikából a felvételizőnek!", "Hiba", MessageBoxButton.OK, MessageBoxImage.Error);
                 txtMatekE.Clear();
+                txtMatekE.Focus();
             }
-            if (tempString.Length == 11 && tempString.StartsWith("72"))
+            else
             {
-                this.felvetelizoAdatai.OM_Azonosito = tempString;
+                this.felvetelizoAdatai.OM_Azonosito = txtOmAzon.Text;
+                this.felvetelizoAdatai.Neve = txtNev.Text;
+                this.felvetelizoAdatai.Email = txtEmail.Text;
+                this.felvetelizoAdatai.SzuletesiDatum = convertedDate;
+                this.felvetelizoAdatai.ErtesitesiCime = txtErtesitesi.Text;
+                this.felvetelizoAdatai.Matematika = int.Parse(txtMatekE.Text);
+                this.felvetelizoAdatai.Magyar = int.Parse(txtMagyarE.Text);
+                MessageBox.Show("Az adatok sikeresen rögzítve lettek!", "Sikeres rögzítés", MessageBoxButton.OK, MessageBoxImage.Information);
+                this.DialogResult = true;
+                Close();
             }
-            else MessageBox.Show("Nem megfelelő OM Azonosító!", "Hiba", MessageBoxButton.OK, MessageBoxImage.Error);
-
-            MessageBox.Show("Az adatok sikeresen rögzítve lettek!", "Sikeres rögzítés", MessageBoxButton.OK, MessageBoxImage.Information);
-            Close();
         }
     }
 }
+

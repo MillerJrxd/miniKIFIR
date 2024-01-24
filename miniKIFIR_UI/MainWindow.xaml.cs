@@ -33,7 +33,7 @@ namespace miniKIFIR_UI
            OpenFileDialog adatokBetoltese = new OpenFileDialog();
             if (adatokBetoltese.ShowDialog() == true)
             {
-                foreach (string sor in File.ReadAllLines(adatokBetoltese.FileName).Skip(1))
+                foreach (string sor in File.ReadAllLines(adatokBetoltese.FileName))
                 {
                     felvetelizok.Add(new Adatok(sor));
                 }
@@ -64,9 +64,13 @@ namespace miniKIFIR_UI
         {
             Adatok ujdiak = new Adatok();
 
-            MainWindow ujablak = new MainWindow(ujdiak);
-            ujablak.ShowDialog();
-            felvetelizok.Add(ujdiak);
+            MainWindow ujablak = new MainWindow(ujdiak, true);
+
+            if (ujablak.ShowDialog() == true)
+            {
+               felvetelizok.Add(ujdiak);
+            }
+            else MessageBox.Show("Nem került sor adatfelvételre!", "Figyelmeztetés", MessageBoxButton.OK, MessageBoxImage.Warning);
         }
         private void Export_Click_Button(object sender, RoutedEventArgs e)
         {
@@ -78,8 +82,9 @@ namespace miniKIFIR_UI
                 StreamWriter sw = new StreamWriter(mentes.FileName);
                 foreach (var item in felvetelizok)
                 {
-                    sw.WriteLine("juhu");
+                    sw.WriteLine(item.CSVSortAdVissza());
                 }
+                sw.Close();
             }
             MessageBox.Show("Elmentve.");
         }

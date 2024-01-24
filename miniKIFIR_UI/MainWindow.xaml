@@ -37,7 +37,7 @@ CornerRadius="15">
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="313*"/>
             </Grid.ColumnDefinitions>
-            <DataGrid x:Name="dgAdatok"  AutoGenerateColumns="True" Background="Transparent" Grid.RowSpan="4" BorderThickness="0" Grid.ColumnSpan="6" Margin="0,37,229,-37" >
+            <DataGrid Style="{DynamicResource DataGridStyle1}" x:Name="dgAdatok"  AutoGenerateColumns="True" Background="Transparent" Grid.RowSpan="4" BorderThickness="0" Grid.ColumnSpan="6" Margin="0,37,229,-37" >
 
             </DataGrid>
 

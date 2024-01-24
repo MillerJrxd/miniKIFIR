@@ -155,11 +155,11 @@
                 <StackPanel Grid.Row="1" >
                     <TextBlock Text="OM azonosító" FontSize="15" Margin="12 5 660 0" Foreground="LightGray" 
                    FontFamily="Fonts/#Dosis"/>
-                    <TextBox x:Name="txtOmAzon" Width="150" Height="30" Margin="0 2 720 0" 
+                    <xctk:MaskedTextBox x:Name="txtOmAzon" Width="150" Mask="70000000000" Height="30" Margin="0 2 720 0" 
                      AcceptsReturn="False" AcceptsTab="False" VerticalContentAlignment="Center"
                      FontSize="18" FontFamily="Fonts/#Dosis" PreviewTextInput="NumberValidation" 
                          BorderThickness="0 0 0 1" BorderBrush="DarkGray" Background="Transparent"
-                         Foreground="White" CaretBrush="White"/>
+                         Foreground="White" CaretBrush="White" Padding="0 0 0 -11"/>
                 </StackPanel>
 
                 <!--Név-->

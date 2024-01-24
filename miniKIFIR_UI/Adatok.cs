@@ -51,7 +51,7 @@ namespace miniKIFIR_UI
 
         public string CSVSortAdVissza()
         {
-            throw new NotImplementedException();
+            return $"{OM_Azonosito};{Neve};{Email};{SzuletesiDatum};{ErtesitesiCime};{Matematika};{Magyar};";
         }
 
         public void ModositCSVSorral(string csvString)
