@@ -42,9 +42,7 @@ namespace miniKIFIR_UI
 
         private void btnAppExit_Click(object s, RoutedEventArgs e)
         {
-           Window UI_Window = Window.GetWindow(this);
-           UI_Window.Resources.Clear();
-           UI_Window.Close();
+            WindowManager();
         }
         private void btnAppMinimize_Click(object s, RoutedEventArgs e)
         {
@@ -144,8 +142,16 @@ namespace miniKIFIR_UI
                 this.felvetelizoAdatai.Magyar = int.Parse(txtMagyarE.Text);
                 MessageBox.Show("Az adatok sikeresen rögzítve lettek!", "Sikeres rögzítés", MessageBoxButton.OK, MessageBoxImage.Information);
                 this.DialogResult = true;
-                Close();
+
+                WindowManager();
             }
+        }
+
+        private void WindowManager()
+        {
+            Window UI_Window = Window.GetWindow(this);
+            UI_Window.Resources.Clear();
+            UI_Window.Close();
         }
     }
 }
