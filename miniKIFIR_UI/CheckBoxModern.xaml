@@ -1,0 +1,42 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <Style x:Key="ModernCheckBoxStyle" TargetType="CheckBox">
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="Background" Value="#CC462AD8"/>
+        <Setter Property="BorderBrush" Value="#DA34AE"/>
+        <Setter Property="BorderThickness" Value="2"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="CheckBox">
+                    <Grid>
+                        <Border Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="10"
+                            Opacity="0.94">
+                            <Grid>
+                                <ContentPresenter HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                                <Path x:Name="CheckMark"
+                                  Stroke="#34b233"
+                                  StrokeThickness="3"
+                                  Data="M 0 5 L 5 10 L 12 0"
+                                  Visibility="Collapsed"
+                                  SnapsToDevicePixels="True"
+                                  />
+                            </Grid>
+                        </Border>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsChecked" Value="True">
+                            <Setter TargetName="CheckMark" Property="Visibility" Value="Visible"/>
+                            <Setter TargetName="CheckMark" Property="HorizontalAlignment" Value="Center"/>
+                            <Setter TargetName="CheckMark" Property="VerticalAlignment" Value="Center"/>
+                            <Setter TargetName="CheckMark" Property="TextElement.FontFamily" Value="/Fonts/#Dosis"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

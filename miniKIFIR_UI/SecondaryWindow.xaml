@@ -15,7 +15,20 @@
         FontWeight="Medium"
         MouseDown="Window_MouseDown">
 
+
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/miniKIFIR_UI;component/CheckBoxModern.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+    
+    
+    
+    
     <!--Gradient Background Szinezés-->
+    
 
     <Border BorderThickness="3"
             CornerRadius="15">
@@ -171,7 +184,7 @@
                      AcceptsReturn="False" AcceptsTab="False" VerticalContentAlignment="Center"
                      FontSize="18" FontFamily="Fonts/#Dosis" PreviewTextInput="TextValidation" 
                          Background="Transparent" BorderBrush="DarkGray" BorderThickness="0 0 0 1"
-                         CaretBrush="White" Foreground="White"/>
+                         CaretBrush="White" Foreground="White" LostFocus="txtNev_LostFocus"/>
                 </StackPanel>
 
                 <!--Email-->
@@ -218,7 +231,7 @@
                      AcceptsReturn="False" AcceptsTab="False" VerticalContentAlignment="Center"
                      FontSize="18" FontFamily="Fonts/#Dosis" PreviewTextInput="NumberValidation" 
                      Background="Transparent" Foreground="White" CaretBrush="White" BorderBrush="DarkGray"
-                     BorderThickness="0 0 0 1" HorizontalContentAlignment="Center"/>
+                     BorderThickness="0 0 0 1" HorizontalContentAlignment="Center" IsEnabled="False"/>
                 </StackPanel>
 
                 <!--Magyar Eredmény-->
@@ -230,14 +243,14 @@
                      AcceptsReturn="False" AcceptsTab="False" VerticalContentAlignment="Center"
                      FontSize="18" FontFamily="Fonts/#Dosis" PreviewTextInput="NumberValidation"
                      Background="Transparent" Foreground="White" CaretBrush="White" BorderBrush="DarkGray"
-                     BorderThickness="0 0 0 1" HorizontalContentAlignment="Center"/>
+                     BorderThickness="0 0 0 1" HorizontalContentAlignment="Center" IsEnabled="False"/>
                 </StackPanel>
 
                 <!--Rögzít-->
 
                 <StackPanel Grid.Row="8" Orientation="Vertical">
-                    <Button x:Name="btnRogzit" Content="Rögzít" Margin="100 10 550 10" FontSize="22" 
-                     BorderThickness="0" Foreground="White" Click="btnRogzit_Click">
+                    <Button x:Name="btnRogzit" Content="Rögzít" Margin="200 10 550 10" FontSize="22" 
+                     BorderThickness="0" Foreground="White" Click="btnRogzit_Click" Width="140">
                         <Button.Background>
                             <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                                 <GradientStop Color="#FF5E2CC6"/>
@@ -270,19 +283,15 @@
                             </ControlTemplate>
                         </Button.Template>
                     </Button>
-                    <CheckBox x:Name="cbPontRögzit" Content="Akar" Margin="600 -45 200 10" HorizontalAlignment="Center" 
-                              VerticalAlignment="Center">
-                        <CheckBox.Style>
-                            <Style TargetType="CheckBox">
-                                <Setter Property="TextElement.FontFamily" Value="Fonts/#Dosis"/>
-                                <Setter Property="Foreground" Value="White"/>
-                                <Setter Property="FontSize" Value="18"/>
-                            </Style>
-                        </CheckBox.Style>
-                        <CheckBox.LayoutTransform>
-                            <ScaleTransform ScaleX="1.5" ScaleY="1.5" />
-                        </CheckBox.LayoutTransform>
-                    </CheckBox>
+                </StackPanel>
+                <StackPanel Grid.Row="8">
+                    <CheckBox x:Name="cbPontRögzit" Margin="500 25 260 0" HorizontalAlignment="Center" 
+                              VerticalAlignment="Center" Style="{StaticResource ModernCheckBoxStyle}" Width="30" 
+                              Height="30" FontSize="16" Click="cbPontRögzit_Click"/>
+                </StackPanel>
+                <StackPanel Grid.Row="8">
+                    <TextBlock Text="Rögzít pontot?" Margin="454 0 200 0" Foreground="LightGray" 
+                               FontSize="15" Grid.Row="8" FontFamily="/Fonts/#Dosis" Width="90" Height="20"/>
                 </StackPanel>
             </Grid>
         </Border>
