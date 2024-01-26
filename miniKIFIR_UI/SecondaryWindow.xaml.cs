@@ -121,7 +121,7 @@ namespace miniKIFIR_UI
                     {
                         if (!char.IsUpper(nev[i][0]))
                         {
-                            MessageBox.Show("Nem megfelelő név!", "Hiba", MessageBoxButton.OK, MessageBoxImage.Error);
+                            MessageBox.Show("A névben lévő szavaknak nagy betűvel kell kezdődnie!", "Hiba", MessageBoxButton.OK, MessageBoxImage.Error);
                             txtNev.Clear();
                             return;
                         }
@@ -189,7 +189,7 @@ namespace miniKIFIR_UI
         {
             if (cbPontRögzit.IsChecked == true)
             {
-                if (txtMatekE.Text == "" || txtMagyarE.Text == "" || txtNev.Text == "" || txtOmAzon.Text == "" || txtErtesitesi.Text == "" || txtEmail.Text == "")
+                if (txtMatekE.Text == "" || txtMagyarE.Text == "" || txtNev.Text == "" || txtErtesitesi.Text == "" || txtEmail.Text == "")
                 {
                     MessageBox.Show("Nem lehet üres mező!", "Hiba", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
@@ -225,7 +225,7 @@ namespace miniKIFIR_UI
                     WindowManager();
                 }
             }
-            else if (txtNev.Text == "" || txtOmAzon.Text == "" || txtErtesitesi.Text == "" || txtEmail.Text == "") 
+            else if (txtNev.Text == "" || txtOmAzon.Text == "" || txtErtesitesi.Text == "" || txtEmail.Text == "")
             {
                 MessageBox.Show("Nem lehet üres mező!", "Hiba", MessageBoxButton.OK, MessageBoxImage.Error);
             }
@@ -241,6 +241,8 @@ namespace miniKIFIR_UI
                 this.felvetelizoAdatai.Email = txtEmail.Text;
                 this.felvetelizoAdatai.SzuletesiDatum = convertedDate;
                 this.felvetelizoAdatai.ErtesitesiCime = txtErtesitesi.Text;
+                this.felvetelizoAdatai.Matematika = -1;
+                this.felvetelizoAdatai.Magyar = -1;
                 MessageBox.Show("Az adatok sikeresen rögzítve lettek!", "Sikeres rögzítés", MessageBoxButton.OK, MessageBoxImage.Information);
                 this.DialogResult = true;
 

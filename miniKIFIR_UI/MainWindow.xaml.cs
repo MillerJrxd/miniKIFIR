@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -30,7 +31,7 @@ namespace miniKIFIR_UI
         }
         public void Import_Click_Button(object sender, RoutedEventArgs e)
         {
-           OpenFileDialog adatokBetoltese = new OpenFileDialog();
+            OpenFileDialog adatokBetoltese = new OpenFileDialog();
             if (adatokBetoltese.ShowDialog() == true)
             {
                 foreach (string sor in File.ReadAllLines(adatokBetoltese.FileName))
@@ -68,7 +69,7 @@ namespace miniKIFIR_UI
 
             if (ujablak.ShowDialog() == true)
             {
-               felvetelizok.Add(ujdiak);
+                felvetelizok.Add(ujdiak);
             }
             else MessageBox.Show("Nem került sor adatfelvételre!", "Figyelmeztetés", MessageBoxButton.OK, MessageBoxImage.Warning);
         }
@@ -87,6 +88,53 @@ namespace miniKIFIR_UI
                 sw.Close();
             }
             MessageBox.Show("Elmentve.");
+        }
+
+        private void Modosit_Button_Click(object sender, RoutedEventArgs e)
+        {
+            //Ne kérdezd én sem tudom de kell
+
+            var regKeyGeoId = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(@"Control Panel\International\Geo");
+            var geoID = (string)regKeyGeoId.GetValue("Nation");
+            var allRegions = CultureInfo.GetCultures(CultureTypes.SpecificCultures).Select(x => new RegionInfo(x.ToString()));
+            var regionInfo = allRegions.FirstOrDefault(r => r.GeoId == Int32.Parse(geoID));
+
+            Adatok ujdiak = new Adatok();
+            MainWindow ujablak = new MainWindow(ujdiak, false);
+
+            ujdiak = (Adatok)dgAdatok.SelectedItem;
+
+            if (felvetelizok.Count == 0 || dgAdatok.SelectedItem == null)
+            {
+                MessageBox.Show("Nincs kiválasztva tanuló módosításra!", "Hiba", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }else
+            {
+                if (regionInfo?.TwoLetterISORegionName == "HU")
+                {
+                    List<string> datLista = new List<string>();
+
+                    string TempString = ujdiak.SzuletesiDatum.ToString();
+
+                    foreach (var item in TempString.Split(' ', StringSplitOptions.RemoveEmptyEntries))
+                    {
+                       datLista.Add(item.TrimEnd('.'));
+                    }
+                    datLista.RemoveAt(datLista.Count - 1);
+
+                    ujablak.txtOmAzon.Text = ujdiak.OM_Azonosito;
+                    ujablak.txtNev.Text = ujdiak.Neve;
+                    ujablak.txtEmail.Text = ujdiak.Email;
+                    ujablak.maskedTextBox1.Text = datLista[1] + '.' + datLista[2] + '.' + datLista[0];
+                    ujablak.txtErtesitesi.Text = ujdiak.ErtesitesiCime;
+                    ujablak.txtMatekE.Text = ujdiak.Matematika.ToString();
+                    ujablak.txtMagyarE.Text = ujdiak.Magyar.ToString();
+                    ujablak.ShowDialog();
+                }
+                else if (regionInfo?.TwoLetterISORegionName == "GB" || regionInfo?.TwoLetterISORegionName == "US" || )
+                {
+                    throw new NotImplementedException();
+                }
+            }
         }
     }
 }
