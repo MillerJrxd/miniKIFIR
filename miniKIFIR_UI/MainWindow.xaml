@@ -34,30 +34,26 @@ CornerRadius="15">
                 <ColumnDefinition Width="4*"/>
                 <ColumnDefinition Width="1*"/>
             </Grid.ColumnDefinitions>
-            <DataGrid x:Name="dgAdatok" HorizontalAlignment="Stretch" Background="Transparent" Grid.RowSpan="4" BorderThickness="0" Margin="0,30,0,0" >
+            <DataGrid IsReadOnly="True" x:Name="dgAdatok" ColumnWidth="*" MinColumnWidth="100"  FontSize="9.5"  Background="Transparent" Grid.RowSpan="4" BorderThickness="0" Margin="0,30,0,0" >
                 <DataGrid.Resources>
                     <Style TargetType="DataGridColumnHeader">
                         <Setter Property="Background" Value="Purple"/>
-                        <Setter Property="FontStyle" Value="Oblique"/>
-                        <Setter Property="FontWeight" Value="Bold"/>
                         <Setter Property="Foreground" Value="White"/>
                     </Style>
                     <Style TargetType="DataGridCell">
                         <Setter Property="Background" Value="#DA34AE"/>
-                        <Setter Property="Foreground" Value="White"/>
+                        <Setter Property="Foreground" Value="Black"/>
                         <Setter Property="BorderBrush" Value="#DA34AE"/>
+                        <Style.Triggers>
+                            <Trigger Property="DataGridCell.IsSelected" Value="True">
+                                <Setter Property="Background" Value="LightPink" />
+                            </Trigger>
+                        </Style.Triggers>
                     </Style>
 
+
                 </DataGrid.Resources>
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="OM Azonosító" Width="90" Binding="{Binding OM_Azonosito}"></DataGridTextColumn>
-                    <DataGridTextColumn Header="Név" Width="90" Binding="{Binding Neve}"></DataGridTextColumn>
-                    <DataGridTextColumn Header="Email" Width="120" Binding="{Binding Email}"></DataGridTextColumn>
-                    <DataGridTextColumn Header="Születési Dátum" Width="130" Binding="{Binding SzuletesiDatum}"></DataGridTextColumn>
-                    <DataGridTextColumn Header="Lakcím" Width="100" Binding="{Binding ErtesitesiCime}"></DataGridTextColumn>
-                    <DataGridTextColumn Header="Matematika" Width="90" Binding="{Binding Matematika}"></DataGridTextColumn>
-                    <DataGridTextColumn Header="Magyar" Width="90" Binding="{Binding Magyar}"></DataGridTextColumn>
-                </DataGrid.Columns>
+
             </DataGrid>
 
             <Button Height="95" Grid.Column="5" Content="Új diák" FontWeight="DemiBold" FontSize="24" Click="Felvesz_Click_Button" >
