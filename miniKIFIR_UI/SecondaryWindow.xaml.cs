@@ -23,7 +23,7 @@ namespace miniKIFIR_UI
     {
         Adatok felvetelizoAdatai;
         bool uzemMod;
-        private DateTime convertedDate;
+        internal DateTime convertedDate;
 
         public MainWindow(Adatok ujdiak, bool mod) : this()
         {
@@ -61,14 +61,29 @@ namespace miniKIFIR_UI
         //Ablakbezárás megerősítéssel
         private void btnAppExit_Click(object s, RoutedEventArgs e)
         {
-            if (MessageBox.Show("Biztosan ki szeretne lépni?\nFigyelem ez a művelet megszakítja az adatfelvételt!", "Figyelem", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+            if (uzemMod == true)
             {
-                WindowManager();
+                if (MessageBox.Show("Biztosan ki szeretne lépni?\nFigyelem ez a művelet megszakítja az adatfelvételt!", "Figyelem", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+                {
+                    WindowManager();
+                }
+                else
+                {
+                    return;
+                }
             }
             else
             {
-                return;
+                if (MessageBox.Show("Biztosan ki szeretne lépni?\nFigyelem ez a művelet megszakítja az adatok módosítását!", "Figyelem", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+                {
+                    WindowManager();
+                }
+                else
+                {
+                    return;
+                }
             }
+            
         }
 
         //Abalak minimalizálása
@@ -187,6 +202,7 @@ namespace miniKIFIR_UI
         //Rögzít gomb, adat átadás, illetve adatok ellenörzése.
         private void btnRogzit_Click(object sender, RoutedEventArgs e)
         {
+
             if (cbPontRögzit.IsChecked == true)
             {
                 if (txtMatekE.Text == "" || txtMagyarE.Text == "" || txtNev.Text == "" || txtErtesitesi.Text == "" || txtEmail.Text == "")
@@ -212,17 +228,27 @@ namespace miniKIFIR_UI
                 }
                 else
                 {
-                    this.felvetelizoAdatai.OM_Azonosito = txtOmAzon.Text;
-                    this.felvetelizoAdatai.Neve = txtNev.Text;
-                    this.felvetelizoAdatai.Email = txtEmail.Text;
-                    this.felvetelizoAdatai.SzuletesiDatum = convertedDate;
-                    this.felvetelizoAdatai.ErtesitesiCime = txtErtesitesi.Text;
-                    this.felvetelizoAdatai.Matematika = int.Parse(txtMatekE.Text);
-                    this.felvetelizoAdatai.Magyar = int.Parse(txtMagyarE.Text);
-                    MessageBox.Show("Az adatok sikeresen rögzítve lettek!", "Sikeres rögzítés", MessageBoxButton.OK, MessageBoxImage.Information);
-                    this.DialogResult = true;
+                    if (uzemMod == true)
+                    {
+                        this.felvetelizoAdatai.OM_Azonosito = txtOmAzon.Text;
+                        this.felvetelizoAdatai.Neve = txtNev.Text;
+                        this.felvetelizoAdatai.Email = txtEmail.Text;
+                        this.felvetelizoAdatai.SzuletesiDatum = convertedDate;
+                        this.felvetelizoAdatai.ErtesitesiCime = txtErtesitesi.Text;
+                        this.felvetelizoAdatai.Matematika = int.Parse(txtMatekE.Text);
+                        this.felvetelizoAdatai.Magyar = int.Parse(txtMagyarE.Text);
+                        MessageBox.Show("Az adatok sikeresen rögzítve lettek!", "Sikeres rögzítés", MessageBoxButton.OK, MessageBoxImage.Information);
+                        this.DialogResult = true;
 
-                    WindowManager();
+                        WindowManager();
+                    }
+                    else
+                    {
+                        MessageBox.Show("A módosítás sikeresen megtörtént!", "Sikeres módosítás", MessageBoxButton.OK, MessageBoxImage.Information);
+                        this.DialogResult = true;
+
+                        WindowManager();
+                    }
                 }
             }
             else if (txtNev.Text == "" || txtOmAzon.Text == "" || txtErtesitesi.Text == "" || txtEmail.Text == "")
@@ -236,17 +262,27 @@ namespace miniKIFIR_UI
             }
             else
             {
-                this.felvetelizoAdatai.OM_Azonosito = txtOmAzon.Text;
-                this.felvetelizoAdatai.Neve = txtNev.Text;
-                this.felvetelizoAdatai.Email = txtEmail.Text;
-                this.felvetelizoAdatai.SzuletesiDatum = convertedDate;
-                this.felvetelizoAdatai.ErtesitesiCime = txtErtesitesi.Text;
-                this.felvetelizoAdatai.Matematika = -1;
-                this.felvetelizoAdatai.Magyar = -1;
-                MessageBox.Show("Az adatok sikeresen rögzítve lettek!", "Sikeres rögzítés", MessageBoxButton.OK, MessageBoxImage.Information);
-                this.DialogResult = true;
+                if (uzemMod == true)
+                {
+                    this.felvetelizoAdatai.OM_Azonosito = txtOmAzon.Text;
+                    this.felvetelizoAdatai.Neve = txtNev.Text;
+                    this.felvetelizoAdatai.Email = txtEmail.Text;
+                    this.felvetelizoAdatai.SzuletesiDatum = convertedDate;
+                    this.felvetelizoAdatai.ErtesitesiCime = txtErtesitesi.Text;
+                    this.felvetelizoAdatai.Matematika = -1;
+                    this.felvetelizoAdatai.Magyar = -1;
+                    MessageBox.Show("Az adatok sikeresen rögzítve lettek!", "Sikeres rögzítés", MessageBoxButton.OK, MessageBoxImage.Information);
+                    this.DialogResult = true;
 
-                WindowManager();
+                    WindowManager();
+                }
+                else
+                {
+                    MessageBox.Show("A módosítás sikeresen megtörtént!", "Sikeres módosítás", MessageBoxButton.OK, MessageBoxImage.Information);
+                    this.DialogResult = true;
+
+                    WindowManager();
+                }
             }
         }
     }

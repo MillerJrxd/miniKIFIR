@@ -6,6 +6,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -34,11 +35,34 @@ namespace miniKIFIR_UI
             OpenFileDialog adatokBetoltese = new OpenFileDialog();
             if (adatokBetoltese.ShowDialog() == true)
             {
-                foreach (string sor in File.ReadAllLines(adatokBetoltese.FileName))
+                if (felvetelizok.Count == 0)
                 {
-                    felvetelizok.Add(new Adatok(sor));
+                    foreach (string sor in File.ReadAllLines(adatokBetoltese.FileName))
+                    {
+                        felvetelizok.Add(new Adatok(sor));
+                    }
+                    dgAdatok.ItemsSource = felvetelizok;
                 }
-                dgAdatok.ItemsSource = felvetelizok;
+                else
+                {
+                    if (MessageBox.Show("Lecserél(I) vagy Hozzáad(N)", "Vizsgálat", MessageBoxButton.YesNo, MessageBoxImage.Exclamation) == MessageBoxResult.Yes)
+                    {
+                        felvetelizok.Clear();
+                        foreach (string sor in File.ReadAllLines(adatokBetoltese.FileName))
+                        {
+                            felvetelizok.Add(new Adatok(sor));
+                        }
+                        dgAdatok.ItemsSource = felvetelizok;
+                    }
+                    else
+                    {
+                        foreach (string sor in File.ReadAllLines(adatokBetoltese.FileName))
+                        {
+                            felvetelizok.Add(new Adatok(sor));
+                        }
+                        dgAdatok.ItemsSource = felvetelizok;
+                    }
+                }
             }
         }
         private void btnAppExit_Click(object s, RoutedEventArgs e)
@@ -58,7 +82,21 @@ namespace miniKIFIR_UI
             {
                 MessageBox.Show("Nincs kijelölt elem!", "Hiba!", MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            else felvetelizok.RemoveAt(dgAdatok.SelectedIndex);
+            else
+            {
+                for (int i = 0; i < felvetelizok.Count; i++)
+                {
+                    for (int j = 0; j < dgAdatok.SelectedItems.Count; j++)
+                    {
+                        if (felvetelizok[i].OM_Azonosito == ((IFelvetelizok)dgAdatok.SelectedItems[j]).OM_Azonosito)
+                        {
+                            felvetelizok.RemoveAt(i);
+                            i--;
+                            break;
+                        }
+                    }
+                }
+            }
         }
 
         private void Felvesz_Click_Button(object sender, RoutedEventArgs e)
@@ -78,26 +116,30 @@ namespace miniKIFIR_UI
             SaveFileDialog mentes = new SaveFileDialog();
             mentes.Title = "File neve: ";
             mentes.DefaultExt = ".csv";
+            mentes.Filter = "CSV fájl (*.csv) | *.csv | JSON fájl (*.json) | *.json";
+            var melyikMentes = System.IO.Path.GetExtension(mentes.FileName);
             if (mentes.ShowDialog() == true)
             {
-                StreamWriter sw = new StreamWriter(mentes.FileName);
-                foreach (var item in felvetelizok)
+                if (melyikMentes == ".json")
                 {
-                    sw.WriteLine(item.CSVSortAdVissza());
+                    string jso = JsonSerializer.Serialize(mentes, typeof(string));
                 }
-                sw.Close();
+                else
+                {
+                    StreamWriter sw = new StreamWriter(mentes.FileName);
+                    foreach (var item in felvetelizok)
+                    {
+                        sw.WriteLine(item.CSVSortAdVissza());
+                    }
+                    sw.Close();
+                    MessageBox.Show("Elmentve.");
+                }
             }
-            MessageBox.Show("Elmentve.");
         }
 
         private void Modosit_Button_Click(object sender, RoutedEventArgs e)
         {
-            //Ne kérdezd én sem tudom de kell
-
-            var regKeyGeoId = Microsoft.Win32.Registry.CurrentUser.OpenSubKey(@"Control Panel\International\Geo");
-            var geoID = (string)regKeyGeoId.GetValue("Nation");
-            var allRegions = CultureInfo.GetCultures(CultureTypes.SpecificCultures).Select(x => new RegionInfo(x.ToString()));
-            var regionInfo = allRegions.FirstOrDefault(r => r.GeoId == Int32.Parse(geoID));
+            CultureInfo ci = CultureInfo.InstalledUICulture;
 
             Adatok ujdiak = new Adatok();
             MainWindow ujablak = new MainWindow(ujdiak, false);
@@ -109,15 +151,15 @@ namespace miniKIFIR_UI
                 MessageBox.Show("Nincs kiválasztva tanuló módosításra!", "Hiba", MessageBoxButton.OK, MessageBoxImage.Warning);
             }else
             {
-                if (regionInfo?.TwoLetterISORegionName == "HU")
+                if (ci?.TwoLetterISOLanguageName == "hu")
                 {
                     List<string> datLista = new List<string>();
 
                     string TempString = ujdiak.SzuletesiDatum.ToString();
 
-                    foreach (var item in TempString.Split(' ', StringSplitOptions.RemoveEmptyEntries))
+                    foreach (var x in TempString.Split(' ', StringSplitOptions.RemoveEmptyEntries))
                     {
-                       datLista.Add(item.TrimEnd('.'));
+                       datLista.Add(x.TrimEnd('.'));
                     }
                     datLista.RemoveAt(datLista.Count - 1);
 
@@ -126,13 +168,97 @@ namespace miniKIFIR_UI
                     ujablak.txtEmail.Text = ujdiak.Email;
                     ujablak.maskedTextBox1.Text = datLista[1] + '.' + datLista[2] + '.' + datLista[0];
                     ujablak.txtErtesitesi.Text = ujdiak.ErtesitesiCime;
-                    ujablak.txtMatekE.Text = ujdiak.Matematika.ToString();
-                    ujablak.txtMagyarE.Text = ujdiak.Magyar.ToString();
-                    ujablak.ShowDialog();
+
+
+                    if (ujdiak.Matematika != -1)
+                    {
+                        ujablak.txtMatekE.Text = ujdiak.Matematika.ToString();
+                    }
+                    
+                    if (ujdiak.Magyar != -1)
+                    {
+                        ujablak.txtMagyarE.Text = ujdiak.Magyar.ToString();
+                    }
+                    else ujablak.txtMagyarE.Text = "";
+
+                    if (ujablak.ShowDialog() == true)
+                    {
+                        if (ujablak.cbPontRögzit.IsChecked == false)
+                        {
+                            ujdiak.Neve = ujablak.txtNev.Text;
+                            ujdiak.Email = ujablak.txtEmail.Text;
+                            ujdiak.SzuletesiDatum = ujablak.convertedDate;
+                            ujdiak.ErtesitesiCime = ujablak.txtErtesitesi.Text;
+                        }
+                        else
+                        {
+                            ujdiak.Neve = ujablak.txtNev.Text;
+                            ujdiak.Email = ujablak.txtEmail.Text;
+                            ujdiak.SzuletesiDatum = ujablak.convertedDate;
+                            ujdiak.ErtesitesiCime = ujablak.txtErtesitesi.Text;
+                            ujdiak.Matematika = int.Parse(ujablak.txtMatekE.Text);
+                            ujdiak.Magyar = int.Parse(ujablak.txtMagyarE.Text);
+                        }
+                        dgAdatok.Items.Refresh();
+                    }
+                    else MessageBox.Show("Nem került sor az adatok módosítására!", "Figyelmeztetés", MessageBoxButton.OK, MessageBoxImage.Warning);
                 }
-                else if (regionInfo?.TwoLetterISORegionName == "GB" || regionInfo?.TwoLetterISORegionName == "US" || )
+                else if (ci?.TwoLetterISOLanguageName == "en")
                 {
-                    throw new NotImplementedException();
+                    //TempString	"25/10/2005 00:00:00"	string
+
+                    List<string> datLista = new List<string>();
+
+                    string TempString = ujdiak.SzuletesiDatum.ToString();
+
+
+                    foreach (string y in TempString.Split('/', StringSplitOptions.RemoveEmptyEntries)) 
+                    {
+                        datLista.Add(y);
+                    }
+                    var kiszed = datLista[2].Split(' ', StringSplitOptions.RemoveEmptyEntries).ToList();
+                    datLista.RemoveAt(2);
+                    kiszed.Remove("00:00:00");
+                    datLista.Add(kiszed[0]);
+
+                    ujablak.txtOmAzon.Text = ujdiak.OM_Azonosito;
+                    ujablak.txtNev.Text = ujdiak.Neve;
+                    ujablak.txtEmail.Text = ujdiak.Email;
+                    ujablak.maskedTextBox1.Text = datLista[1] + '/' + datLista[0] + '/' + datLista[2];
+                    ujablak.txtErtesitesi.Text = ujdiak.ErtesitesiCime;
+
+                    if (ujdiak.Matematika != -1)
+                    {
+                        ujablak.txtMatekE.Text = ujdiak.Matematika.ToString();
+                    }
+
+                    if (ujdiak.Magyar != -1)
+                    {
+                        ujablak.txtMagyarE.Text = ujdiak.Magyar.ToString();
+                    }
+                    else ujablak.txtMagyarE.Text = "";
+
+                    if (ujablak.ShowDialog() == true)
+                    {
+                        if (ujablak.cbPontRögzit.IsChecked == false)
+                        {
+                            ujdiak.Neve = ujablak.txtNev.Text;
+                            ujdiak.Email = ujablak.txtEmail.Text;
+                            ujdiak.SzuletesiDatum = ujablak.convertedDate;
+                            ujdiak.ErtesitesiCime = ujablak.txtErtesitesi.Text;
+                        }
+                        else
+                        {
+                            ujdiak.Neve = ujablak.txtNev.Text;
+                            ujdiak.Email = ujablak.txtEmail.Text;
+                            ujdiak.SzuletesiDatum = ujablak.convertedDate;
+                            ujdiak.ErtesitesiCime = ujablak.txtErtesitesi.Text;
+                            ujdiak.Matematika = int.Parse(ujablak.txtMatekE.Text);
+                            ujdiak.Magyar = int.Parse(ujablak.txtMagyarE.Text);
+                        }
+                        dgAdatok.Items.Refresh();
+                    }
+                    else MessageBox.Show("Nem került sor az adatok módosítására!", "Figyelmeztetés", MessageBoxButton.OK, MessageBoxImage.Warning);
                 }
             }
         }
