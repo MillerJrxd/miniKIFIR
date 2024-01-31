@@ -219,14 +219,6 @@ namespace miniKIFIR_UI
                 {
                     MessageBox.Show($"Az email cím mező több mint egy '@' jelet tartalmaz, nem megfelelő email!\n '@' Jelek  száma:{txtEmail.Text.Count(x => x == '@')}",
                         "Hiba", MessageBoxButton.OK, MessageBoxImage.Error);
-                    txtEmail.Clear();
-                    txtEmail.Focus();
-                }
-                else if (txtEmail.Text.Contains(' '))
-                {
-                    MessageBox.Show("Az email cím nem tartalmazhat szóközöket!", "Hiba", MessageBoxButton.OK, MessageBoxImage.Warning);
-                    txtEmail.Clear();
-                    txtEmail.Focus();
                 }
                 else if (int.Parse(txtMatekE.Text) > 50 || 0 > int.Parse(txtMatekE.Text))
                 {
@@ -267,14 +259,6 @@ namespace miniKIFIR_UI
             {
                 MessageBox.Show($"Az email cím mező több mint egy '@' jelet tartalmaz, nem megfelelő email!\n '@' Jelek  száma:{txtEmail.Text.Count(x => x == '@')}",
                     "Hiba", MessageBoxButton.OK, MessageBoxImage.Error);
-                txtEmail.Clear();
-                txtEmail.Focus();
-            }
-            else if (txtEmail.Text.Contains(' '))
-            {
-                MessageBox.Show("Az email cím nem tartalmazhat szóközöket!", "Hiba", MessageBoxButton.OK, MessageBoxImage.Warning);
-                txtEmail.Clear();
-                txtEmail.Focus();
             }
             else
             {
