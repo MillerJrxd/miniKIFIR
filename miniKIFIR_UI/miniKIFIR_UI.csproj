@@ -16,6 +16,7 @@
 
   <ItemGroup>
     <PackageReference Include="Extended.Wpf.Toolkit" Version="4.6.0" />
+    <PackageReference Include="MySqlConnector" Version="2.3.5" />
   </ItemGroup>
 
   <ItemGroup>

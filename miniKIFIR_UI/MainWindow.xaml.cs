@@ -1,4 +1,5 @@
 ﻿using Microsoft.Win32;
+using MySqlConnector;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -24,6 +25,8 @@ namespace miniKIFIR_UI
     /// </summary>
     public partial class miniKIFIR_Main : Window
     {
+        internal readonly string connectionString = "Server=localhost;Database=minikifir;User ID=root;Password=;";
+
         ObservableCollection<IFelvetelizok> felvetelizok = new ObservableCollection<IFelvetelizok>();
         public miniKIFIR_Main()
         {
@@ -259,6 +262,76 @@ namespace miniKIFIR_UI
                         dgAdatok.Items.Refresh();
                     }
                     else MessageBox.Show("Nem került sor az adatok módosítására!", "Figyelmeztetés", MessageBoxButton.OK, MessageBoxImage.Warning);
+                }
+            }
+        }
+        private void btnDataImport_Click(object sender, RoutedEventArgs e)
+        {
+            MySqlConnection connection = new MySqlConnection(connectionString);
+
+            try
+            {
+                connection.Open();
+            }
+            catch (MySqlException ex)
+            {
+                MessageBox.Show($"Hiba történt az adatbázishoz való kapcsolódás közben.\nHiba kód: {ex.ErrorCode}\nÜzenet: {ex.Message}", "Hiba", MessageBoxButton.OK, MessageBoxImage.Error);
+                connection.Close();
+            }
+            
+            if (connection.State == System.Data.ConnectionState.Open)
+            {
+                if (felvetelizok.Count > 0)
+                {
+                    string clearDataQuery = "DELETE FROM felvetelizok";
+                    MySqlCommand clearData = new MySqlCommand(clearDataQuery, connection);
+                    clearData.ExecuteNonQuery();
+
+
+                    string insertDataQuery = "INSERT INTO felvetelizok (om_azon, nev, email, szuletesi_datum, ertesitesi_cim, matek_eredmeny, magyar_eredmeny) VALUES (@OM_Azonosito, @Neve, @Email, @SzuletesiDatum, @ErtesitesiCime, @Matematika, @Magyar)";
+
+                    foreach (IFelvetelizok item in felvetelizok)
+                    {
+                        if (item is Adatok adatok)
+                        {
+                            MySqlCommand insertDataCmd = new MySqlCommand(insertDataQuery, connection);
+                            {
+                                insertDataCmd.Parameters.AddWithValue("@OM_Azonosito", adatok.OM_Azonosito);
+                                insertDataCmd.Parameters.AddWithValue("@Neve", adatok.Neve);
+                                insertDataCmd.Parameters.AddWithValue("@Email", adatok.Email);
+                                insertDataCmd.Parameters.AddWithValue("@SzuletesiDatum", adatok.SzuletesiDatum);
+                                insertDataCmd.Parameters.AddWithValue("@ErtesitesiCime", adatok.ErtesitesiCime);
+
+                                if (adatok.Matematika == -1)
+                                {
+                                    insertDataCmd.Parameters.AddWithValue("@Matematika", null);
+                                }
+                                else insertDataCmd.Parameters.AddWithValue("@Matematika", adatok.Matematika);
+
+                                if (adatok.Magyar == -1)
+                                {
+                                    insertDataCmd.Parameters.AddWithValue("@Magyar", null);
+                                }
+                                else insertDataCmd.Parameters.AddWithValue("@Magyar", adatok.Magyar);
+
+                                try
+                                {
+                                    insertDataCmd.ExecuteNonQuery();
+                                }
+                                catch (MySqlException ex)
+                                {
+                                    MessageBox.Show($"Sikertelen művelet!\nHiba kód: {ex.ErrorCode}\nÜzenet: {ex.Message}", "Hiba", MessageBoxButton.OK, MessageBoxImage.Error);
+                                }
+                            }
+                        }
+                    }
+                    MessageBox.Show("Sikeres művelet!", "Feltöltés", MessageBoxButton.OK, MessageBoxImage.Information);
+                    connection.Close();
+                }
+                else
+                {
+                    MessageBox.Show("Nincs adat, amit fel lehetne tölteni adatbázisba!", "Hiba", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    connection.Close();
                 }
             }
         }
