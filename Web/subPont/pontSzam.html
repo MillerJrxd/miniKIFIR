@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>miniKIFIR</title>
+    <link rel="stylesheet" href="cs.css">
+    <script src="nl.js" defer></script>
+</head>
+<body>
+    <div class="container">
+        <div>
+            Pontszám minimum: 
+            <input type="text" for="Pontszám" id="inpPontszam" required placeholder="Érték"/>
+            <button onclick="dataSort()" id="btnListaz">Listáz</button>
+            <button id="btnExport" onclick="CSVExport()">Export</button> 
+        </div>
+        <table id="dataTable">
+            <thead>
+                <tr>
+                    <th>OM Azonositó</th>
+                    <th>Név</th>
+                    <th>Matek</th>
+                    <th>Magyar</th>
+                    <th>Összesen</th>
+                </tr>
+            </thead>
+            <tbody id="tableBody">
+            </tbody>
+        </table>
+        <textarea readonly id="txtAreCSV"></textarea>
+    </div>
+</body>
+</html>
