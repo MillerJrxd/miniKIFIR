@@ -1,0 +1,103 @@
+body {
+    background-color: #2d3a3a;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    padding: 20px;
+  }
+
+  #container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  #tologatosdi {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+
+  #txtOM {
+    margin-right: 10px;
+  }
+
+  #omInput,
+  #btnKereses {
+    border-radius: 0.5rem;
+    padding: 8px 16px;
+    cursor: pointer;
+  }
+
+  #btnKereses {
+    background-color: #6e8f6f;
+    color: white;
+  }
+
+  #omInput {
+    background-color: #2d3a3a;
+    color: white;
+  }
+
+  #omInput::placeholder {
+    font-style: italic;
+  }
+
+  #tablazat {
+    width: 100%;
+    background-color: #f0f0f0;
+    border-radius: 0.5rem;
+    overflow: hidden;
+  }
+
+  #tablazat th,
+  #tablazat td {
+    border: 1px solid #dddddd;
+    padding: 12px;
+    text-align: left;
+  }
+
+  #tablazat th {
+    background-color: #4CAF50;
+    color: white;
+  }
+
+  #tablazat tr {
+    background-color: #ffffff;
+  }
+
+  #tablazat tr:hover {
+    background-color: #f2f2f2;
+  }
+
+  #statisztika {
+    width: 100%;
+    margin-top: 20px;
+    background-color: #dddddd;
+    border-radius: 0.5rem;
+    overflow: hidden;
+    padding: 1rem;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  }
+
+  @media (max-width: 715px) {
+    #tablazat th,
+    #tablazat td {
+      padding: 10px;
+    }
+
+    #container {
+      padding: 0 10px;
+    }
+  }
+
+  @media (max-width: 500px) {
+    #tologatosdi {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    #txtOM {
+      margin-bottom: 10px;
+    }
+  }
+  #error{
+    margin-left: 1rem;
+  }
