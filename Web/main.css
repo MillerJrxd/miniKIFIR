@@ -1,0 +1,134 @@
+@import url('https://fonts.googleapis.com/css2?family=Dosis:wght@200..800&display=swap');
+
+html {
+  background-image: url(https://images3.alphacoders.com/134/1347286.jpeg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  color: white;
+}
+  
+  body {
+    font-family: 'Dosis', Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+  }
+
+  li {
+    display: inline-flex;
+    font-weight: 400;
+    font-size: clamp(1rem, 2.5vw, 2rem);
+    margin-right: 50px;
+    margin-top: 80px;
+  }
+
+  a:link {
+    text-decoration: none;
+    color: white;
+    animation: slideIn 2.5s cubic-bezier(0.39, 0.575, 0.565, 1) both;
+    animation-delay: 1.5s;
+  }
+  a:visited {
+    color: white;
+    text-decoration: none;
+  }
+
+  a:hover {
+    color: rgba(158, 154, 154, 0.836);
+  }
+
+  .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 0 2rem;
+    box-sizing: border-box;
+  }
+  
+  
+  .title {
+    font-weight: 700;
+    font-size: clamp(2rem, 5vw, 6rem); 
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    animation: slideIn 2.5s cubic-bezier(0.39, 0.575, 0.565, 1) both; 
+    opacity: 0;
+    transform: translateY(-50px);
+  }
+  
+  .subtitle {
+    font-weight: 400;
+    font-size: clamp(1rem, 2.5vw, 2rem); 
+    animation: slideIn 2.5s cubic-bezier(0.39, 0.575, 0.565, 1) both;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    animation-delay: 1s;
+    opacity: 0;
+    transform: translateY(50px); 
+    color: white;
+  }
+  
+  @keyframes slideIn {
+    0% {
+      transform: translateY(-50px);
+      opacity: 0;
+    }
+    50% {
+      transform: translateY(10px);
+      opacity: 1;
+    }
+    100% {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+  
+  @media (min-width: 1024px) {
+    .title {
+      font-size: clamp(3rem, 5vw, 8rem); 
+      text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.5);
+    }
+  
+    .subtitle {
+      font-size: clamp(1.5rem, 2.5vw, 3rem); 
+    }
+  }
+  
+  @media (min-width: 768px) {
+    .title {
+      font-size: clamp(2.5rem, 5vw, 7rem); 
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    }
+  
+    .subtitle {
+      font-size: clamp(1.2rem, 2.5vw, 2.5rem); 
+    }
+  }
+  
+  @media (min-width: 425px) {
+    .title {
+      font-size: clamp(2rem, 5vw, 6rem); 
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    }
+  
+    .subtitle {
+      font-size: clamp(1rem, 2.5vw, 2rem); 
+    }
+  }
+  
+  @media (min-width: 376px) {
+    .title {
+      font-size: clamp(1.5rem, 5vw, 5rem); 
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    }
+  
+    .subtitle {
+      font-size: clamp(0.8rem, 2.5vw, 1.5rem); 
+    }
+  }
