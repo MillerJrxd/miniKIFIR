@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OM Kereső</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+</head>
+<body>
+    <div id="container">
+        <div id="tablazatfelso">
+            <div id="tologatosdi">
+                <label for="omInput" id="txtOM">OM:</label>
+                <input type="text" id="omInput" placeholder="OM azonosító">
+                <!--<button id="btnKereses">Keresés</button>-->
+                <div id="error" style="display: none; color: red;">Még nem szerepel 11 szám benne.</div>
+            </div>
+
+            <div class="tablazatDiv">
+                <table id="tablazat">
+                    <tr>
+                        <th>OM</th>
+                        <th>Név</th>
+                        <th>Email</th>
+                        <th>Lakcim</th>
+                        <th>Matek</th>
+                        <th>Magyar</th>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div id="statisztika">
+            <span>Listában lévő elemek száma: <span id="matchCount">0</span></span> <br>
+            <span>Matek pontok átlaga: <span id="mathAverage">0.0</span></span> <br>
+            <span>Magyar pontok átlaga: <span id="hungarianAverage">0.0</span></span> <br>
+            <span>Összpontszám átlaga: <span id="totalAverage">0.0</span></span> <br>
+        </div>
+    </div>
+</body>
+</html>
